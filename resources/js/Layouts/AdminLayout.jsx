@@ -3,7 +3,7 @@ import { Link, usePage } from "@inertiajs/react";
 
 const AdminLayout = ({ children }) => {
     const { component } = usePage();
-    console.log(component);
+    const { auth } = usePage().props;
 
     return (
         <>
@@ -35,7 +35,7 @@ const AdminLayout = ({ children }) => {
                                 </Link>
                             </div>
 
-                            <div>User</div>
+                            <div> {auth.user.name} </div>
                         </nav>
                     </div>
                 </div>
