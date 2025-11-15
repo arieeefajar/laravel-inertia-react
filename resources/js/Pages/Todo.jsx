@@ -1,12 +1,11 @@
 import Pagination from "@/Components/Pagination";
 import AdminLayout from "@/Layouts/AdminLayout";
-import { router, useForm, usePage } from "@inertiajs/react";
+import { Link, router, useForm, usePage } from "@inertiajs/react";
 import { BsPencilSquare } from "react-icons/bs";
 import { FaRegTrashAlt, FaRegCheckCircle } from "react-icons/fa";
 
 const Todo = ({ todos }) => {
     const { flash, errors } = usePage().props;
-    console.log(todos);
 
     const { data, setData, reset } = useForm({
         name: "",
@@ -67,7 +66,10 @@ const Todo = ({ todos }) => {
                         >
                             <h3>{todo.name}</h3>
                             <div className="flex items-center justify-center gap-2">
-                                <BsPencilSquare /> | <FaRegTrashAlt />
+                                <Link href={`/todo/edit/${todo.id}`}>
+                                    <BsPencilSquare />
+                                </Link>{" "}
+                                | <FaRegTrashAlt />
                             </div>
                         </div>
                     ))}
