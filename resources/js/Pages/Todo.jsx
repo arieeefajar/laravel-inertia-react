@@ -1,8 +1,14 @@
 import Pagination from "@/Components/Pagination";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Link, router, useForm, usePage } from "@inertiajs/react";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 import { BsPencilSquare } from "react-icons/bs";
-import { FaRegTrashAlt, FaRegCheckCircle } from "react-icons/fa";
+import {
+    FaRegTrashAlt,
+    FaRegCheckCircle,
+    FaRegTimesCircle,
+} from "react-icons/fa";
 
 const Todo = ({ todos }) => {
     const { flash, errors } = usePage().props;
@@ -20,18 +26,32 @@ const Todo = ({ todos }) => {
         });
     };
 
+    useEffect(() => {
+        flash.message && toast.success(flash.message);
+    }, []);
+
+    const handleComplete = (id, name, isCompleted) => {
+        let title = document.getElementById(id);
+        title.innerHTML = "Processing...";
+        router.patch(
+            `/todo/edit-complete/${id}`,
+            {
+                is_completed: !isCompleted,
+            },
+            {
+                onSuccess: () => {
+                    title.innerHTML = name;
+                },
+            }
+        );
+    };
+
     return (
         <AdminLayout>
             <div className="max-w-4xl mx-auto">
                 <h2 className="font-semibold text-4xl my-8 text-center">
                     Todo App
                 </h2>
-
-                {flash.message && (
-                    <div className="py-2 px-4 rounded-md bg-green-300 text-center mb-6">
-                        {flash.message}
-                    </div>
-                )}
 
                 <form onSubmit={storeTodo}>
                     <div className="mb-6">
@@ -62,10 +82,37 @@ const Todo = ({ todos }) => {
                     {todos.data.map((todo, i) => (
                         <div
                             key={i}
-                            className="flex justify-between items-center py-3 px-6 bg-red-100 rounded-md"
+                            className={`flex justify-between items-center py-3 px-6 ${
+                                todo.is_completed
+                                    ? "bg-green-100"
+                                    : "bg-red-100"
+                            } rounded-md`}
                         >
-                            <h3>{todo.name}</h3>
+                            <h3 id={todo.id}>{todo.name}</h3>
                             <div className="flex items-center justify-center gap-2">
+                                {todo.is_completed ? (
+                                    <FaRegTimesCircle
+                                        className="cursor-pointer text-red-600"
+                                        onClick={() =>
+                                            handleComplete(
+                                                todo.id,
+                                                todo.name,
+                                                todo.is_completed
+                                            )
+                                        }
+                                    />
+                                ) : (
+                                    <FaRegCheckCircle
+                                        className="cursor-pointer"
+                                        onClick={() =>
+                                            handleComplete(
+                                                todo.id,
+                                                todo.name,
+                                                todo.is_completed
+                                            )
+                                        }
+                                    />
+                                )}
                                 <Link href={`/todo/edit/${todo.id}`}>
                                     <BsPencilSquare />
                                 </Link>{" "}
@@ -73,12 +120,6 @@ const Todo = ({ todos }) => {
                             </div>
                         </div>
                     ))}
-                    <div className="flex justify-between items-center py-3 px-6 bg-green-100 rounded-md">
-                        <h3>Lorem ipsum dolor sit.</h3>
-                        <div className="flex items-center justify-center gap-2">
-                            <FaRegCheckCircle /> | <FaRegTrashAlt />
-                        </div>
-                    </div>
                 </div>
 
                 <div className="mt-4 flex justify-end items-center">
@@ -90,4 +131,3 @@ const Todo = ({ todos }) => {
 };
 
 export default Todo;
-``;
