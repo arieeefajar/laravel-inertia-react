@@ -43,6 +43,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/users', [UserController::class, 'index'])->name('user.index');
-Route::get('/todo', [TodoController::class, 'index'])->name('todo.index');
+// Route::get('/todo', [TodoController::class, 'index'])->name('todo.index');
 
 require __DIR__ . '/auth.php';

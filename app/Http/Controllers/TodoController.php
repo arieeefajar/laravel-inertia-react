@@ -18,6 +18,8 @@ class TodoController extends Controller
         $data  = $request->validate([
             'name' => 'required',
             'is_complete' => 'boolean'
+        ], [
+            'name.required' => 'Nama todo harus diisi',
         ]);
 
         Todo::create($data);
