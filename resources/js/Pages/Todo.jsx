@@ -4,8 +4,9 @@ import { router, useForm, usePage } from "@inertiajs/react";
 import { BsPencilSquare } from "react-icons/bs";
 import { FaRegTrashAlt, FaRegCheckCircle } from "react-icons/fa";
 
-const Todo = () => {
+const Todo = ({ todos }) => {
     const { flash, errors } = usePage().props;
+    console.log(todos);
 
     const { data, setData, reset } = useForm({
         name: "",
@@ -59,12 +60,17 @@ const Todo = () => {
                     </div>
                 </form>
                 <div className="flex flex-col gap-4">
-                    <div className="flex justify-between items-center py-3 px-6 bg-red-100 rounded-md">
-                        <h3>Lorem ipsum dolor sit.</h3>
-                        <div className="flex items-center justify-center gap-2">
-                            <BsPencilSquare /> | <FaRegTrashAlt />
+                    {todos.data.map((todo, i) => (
+                        <div
+                            key={i}
+                            className="flex justify-between items-center py-3 px-6 bg-red-100 rounded-md"
+                        >
+                            <h3>{todo.name}</h3>
+                            <div className="flex items-center justify-center gap-2">
+                                <BsPencilSquare /> | <FaRegTrashAlt />
+                            </div>
                         </div>
-                    </div>
+                    ))}
                     <div className="flex justify-between items-center py-3 px-6 bg-green-100 rounded-md">
                         <h3>Lorem ipsum dolor sit.</h3>
                         <div className="flex items-center justify-center gap-2">
@@ -74,7 +80,7 @@ const Todo = () => {
                 </div>
 
                 <div className="mt-4 flex justify-end items-center">
-                    <Pagination />
+                    <Pagination todos={todos} />
                 </div>
             </div>
         </AdminLayout>
@@ -82,3 +88,4 @@ const Todo = () => {
 };
 
 export default Todo;
+``;

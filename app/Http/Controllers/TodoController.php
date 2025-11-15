@@ -10,7 +10,10 @@ class TodoController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Todo');
+        $todos = Todo::latest()->paginate(2);
+        return Inertia::render('Todo', [
+            'todos' => $todos
+        ]);
     }
 
     public function store(Request $request)

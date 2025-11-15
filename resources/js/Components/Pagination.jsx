@@ -1,100 +1,42 @@
+import { Link } from "@inertiajs/react";
 import React from "react";
 
-const Pagination = () => {
+const Pagination = ({ todos }) => {
+    const links = todos.links;
+    const curretPage = todos.current_page;
+    const lastPage = todos.last_page;
+
     return (
         <nav aria-label="Page navigation example">
             <ul className="flex -space-x-px text-sm">
-                <li>
-                    <a
-                        href="#"
-                        className="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium rounded-s-base text-sm w-10 h-10 focus:outline-none"
-                    >
-                        <span className="sr-only">Previous</span>
-                        <svg
-                            className="w-4 h-4 rtl:rotate-180"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            width={24}
-                            height={24}
-                            fill="none"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="m15 19-7-7 7-7"
-                            />
-                        </svg>
-                    </a>
-                </li>
-                <li>
-                    <a
-                        href="#"
-                        className="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium text-sm w-10 h-10 focus:outline-none"
-                    >
-                        1
-                    </a>
-                </li>
-                <li>
-                    <a
-                        href="#"
-                        className="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium text-sm w-10 h-10 focus:outline-none"
-                    >
-                        2
-                    </a>
-                </li>
-                <li>
-                    <a
-                        href="#"
-                        aria-current="page"
-                        className="flex items-center justify-center text-fg-brand bg-neutral-tertiary-medium box-border border border-default-medium hover:text-fg-brand font-medium text-sm w-10 h-10 focus:outline-none"
-                    >
-                        3
-                    </a>
-                </li>
-                <li>
-                    <a
-                        href="#"
-                        className="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium text-sm w-10 h-10 focus:outline-none"
-                    >
-                        4
-                    </a>
-                </li>
-                <li>
-                    <a
-                        href="#"
-                        className="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium text-sm w-10 h-10 focus:outline-none"
-                    >
-                        5
-                    </a>
-                </li>
-                <li>
-                    <a
-                        href="#"
-                        className="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium rounded-e-base text-sm w-10 h-10 focus:outline-none"
-                    >
-                        <span className="sr-only">Next</span>
-                        <svg
-                            className="w-4 h-4 rtl:rotate-180"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            width={24}
-                            height={24}
-                            fill="none"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="m9 5 7 7-7 7"
-                            />
-                        </svg>
-                    </a>
-                </li>
+                {links.map((link, i) => {
+                    return (
+                        <li key={i}>
+                            <Link
+                                href={link.url}
+                                className={`flex items-center justify-center px-4 h-10 leading-tight ${
+                                    link.active
+                                        ? "bg-slate-500 text-gray-900 border-slate-500"
+                                        : "bg-slate-900 text-gray-500 border-slate-900"
+                                } border hover:bg-slate-700 hover:text-gray-900 ${
+                                    i === 0 && "rounded-s-md"
+                                } ${i === links.length - 1 && "rounded-e-md"} ${
+                                    link.curret
+                                } ${i === 0 && curretPage === 1 && "hidden"} ${
+                                    curretPage == lastPage &&
+                                    i === links.length - 1 &&
+                                    "hidden"
+                                } `}
+                            >
+                                <div
+                                    dangerouslySetInnerHTML={{
+                                        __html: link.label,
+                                    }}
+                                />
+                            </Link>
+                        </li>
+                    );
+                })}
             </ul>
         </nav>
     );
