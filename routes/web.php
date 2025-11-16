@@ -42,6 +42,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/edit/{todo}', 'edit')->name('edit');
         Route::patch('/edit/{todo}', 'update')->name('update');
         Route::patch('/edit-complete/{todo}', 'updateComplete')->name('update_complete');
+        Route::delete('/delete/{todo}', 'destroy')->name('destroy');
     });
 });
 
